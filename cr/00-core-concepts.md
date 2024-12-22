@@ -23,5 +23,4 @@ Got it! Let's break down the key Fabric concepts for the DP-600 exam:
 ### 5. **Fabric Items**
    - **Definition**: Core building blocks in Fabric.
    - **Examples**: Data warehouses, lakehouses, data pipelines, semantic models, reports, etc.
-
-Let me know if you'd like detailed examples or further explanation on any of these concepts!
+ 
