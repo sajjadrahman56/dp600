@@ -246,6 +246,4 @@ Ask these **in order**:
 > **Direct Lake = data in OneLake**
 > **DirectQuery = data at source**
 
----
-
  
