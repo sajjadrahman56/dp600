@@ -304,3 +304,313 @@ Use it WHEN:
 
 ---
  
+Absolutely — with **only 2 days left**, you don’t need *more content*.
+You need **clarity, patterns, and exam reflexes**.
+
+Below is a **HIGH-EFFICIENCY, EXAM-KILLER NOTE** designed exactly for **DP-600**, based **100% on your wrong answers** and **real exam traps**.
+
+👉 Read this **2–3 times** and you will **not freeze**, **not confuse**, and **not overthink**.
+
+---
+
+# 🔥 DP-600 ULTRA-SMART REVISION NOTES
+
+### (48% → 75%+ in 2 Days | Pattern-Based | Exam-Focused)
+
+---
+
+## 🧭 MASTER EXAM RULE (READ THIS FIRST)
+
+Before answering ANY DP-600 question, ask **ONLY 4 QUESTIONS**:
+
+1️⃣ Is this **Warehouse / Lakehouse / Semantic Model**?
+2️⃣ Is this **Security / Ingestion / Modeling / DevOps**?
+3️⃣ Is this **Access control or Data transformation**?
+4️⃣ Is this **Code-free or Code-rich**?
+
+👉 **80% of wrong answers come from skipping this step**
+
+---
+
+# 1️⃣ SECURITY IN MICROSOFT FABRIC (MOST IMPORTANT)
+
+This is your **biggest score booster**.
+
+---
+
+## 🔐 SECURITY LAYERS — NEVER CONFUSE AGAIN
+
+| Layer                  | WHAT it controls              | WHERE it applies   |
+| ---------------------- | ----------------------------- | ------------------ |
+| Workspace Roles        | Who enters workspace          | Workspace          |
+| Item-level permissions | Who opens warehouse/lakehouse | Item               |
+| **T-SQL GRANT**        | Table / view / object access  | **Warehouse**      |
+| **OLS**                | Tables / columns / measures   | **Semantic model** |
+| **RLS**                | Rows                          | Warehouse + Model  |
+| **CLS**                | Columns                       | Warehouse + Model  |
+| Dynamic Data Masking   | Masks values                  | Warehouse          |
+| Sensitivity Labels     | Governance & protection       | Entire Fabric      |
+
+---
+
+## ❓ WH-PATTERN QUESTIONS (SECURITY)
+
+### ❓ *“Restrict access to specific warehouse objects”*
+
+✅ **T-SQL GRANT**
+❌ Item-level permission
+
+**WHY:**
+Item permission = open/not open
+T-SQL = object-level control
+
+📌 **Exam rule:**
+
+> **Warehouse object security = T-SQL**
+
+---
+
+### ❓ *“Only User1 can see a specific measure”*
+
+✅ **Object-Level Security (OLS)**
+❌ RLS
+
+**WHY:**
+
+* Measures ≠ rows
+* RLS filters data, not visibility
+
+📌 **Exam rule:**
+
+> **Measure / column hiding = OLS**
+
+---
+
+### ❓ *“Restrict rows by user role”*
+
+✅ **Row-Level Security (RLS)**
+❌ Workspace role
+
+📌 **Exam rule:**
+
+> Workspace role ≠ data filtering
+
+---
+
+### ❓ *“Hide columns but allow query”*
+
+✅ **Column-Level Security (CLS)**
+❌ Dynamic masking
+
+📌 **Key difference:**
+CLS = hidden
+Masking = visible but obfuscated
+
+---
+
+### ❓ *“Protect sensitive data across Fabric”*
+
+✅ **Sensitivity labels**
+
+📌 **Exam rule:**
+
+> **Environment-wide protection = Sensitivity labels**
+
+---
+
+## ⚠️ SECURITY EXAM TRAPS
+
+❌ Item-level ≠ row/column
+❌ Masking ≠ access control
+❌ Workspace role ≠ data security
+
+---
+
+# 2️⃣ DATA INGESTION (CONFUSION KILLER)
+
+---
+
+## 🚚 INGESTION DECISION TABLE
+
+| Requirement                 | Use                      |
+| --------------------------- | ------------------------ |
+| Code-free + transform       | **Dataflow Gen2**        |
+| Huge data, no transform     | **Pipeline – Copy Data** |
+| Warehouse + high throughput | **COPY (T-SQL)**         |
+| No data movement            | **Shortcut**             |
+| Complex big-data ETL        | **Notebook (Spark)**     |
+
+---
+
+## ❓ WH-PATTERNS
+
+### ❓ *“Code-free ingestion with transformations”*
+
+✅ Dataflow Gen2
+❌ Notebook
+
+---
+
+### ❓ *“500M+ rows, no transformation”*
+
+✅ Copy Data (Pipeline)
+
+---
+
+### ❓ *“High-throughput ingestion into warehouse”*
+
+✅ COPY (T-SQL)
+
+---
+
+📌 **Exam rule:**
+
+> **No transform + big data = Copy Data**
+
+---
+
+# 3️⃣ DEPLOYMENT PIPELINES (VERY SCORING)
+
+---
+
+## ❓ WHY deployment pipelines exist?
+
+👉 Move **Dev → Test → Prod**
+👉 Keep **connections intact**
+
+---
+
+## ❓ WHAT YOU MUST ENABLE
+
+| Feature              | Why                        |
+| -------------------- | -------------------------- |
+| Autobinding          | Keeps report ↔ model links |
+| Select related items | Deploy dependencies        |
+
+---
+
+### ❓ *“Maintain connections between reports and models”*
+
+✅ Autobinding
+❌ Manual redeploy
+
+📌 **Exam rule:**
+
+> **Connections break without autobinding**
+
+---
+
+# 4️⃣ KQL vs PIPELINE (COMMON TRAP)
+
+---
+
+| Need                   | Use              |
+| ---------------------- | ---------------- |
+| Analyze data using KQL | **KQL Queryset** |
+| Move data              | Pipeline         |
+| Visualize              | Power BI         |
+
+📌 **Exam rule:**
+
+> **KQL analysis ≠ pipeline**
+
+---
+
+# 5️⃣ SEMANTIC MODEL & DAX (CORE DP-600)
+
+---
+
+## 🔗 RELATIONSHIP FUNCTIONS
+
+| Scenario                 | Function              |
+| ------------------------ | --------------------- |
+| No physical relationship | **TREATAS()**         |
+| Inactive relationship    | **USERELATIONSHIP()** |
+
+---
+
+### ❓ *“Virtual relationship between unrelated tables”*
+
+✅ TREATAS
+❌ USERELATIONSHIP
+
+---
+
+## 📊 FIELD CONTROL
+
+| Requirement            | Use                  |
+| ---------------------- | -------------------- |
+| Change axis via slicer | **Field parameters** |
+| Time intelligence      | Calculation groups   |
+
+---
+
+### ❓ *“User switches Y-axis”*
+
+✅ Field parameters
+❌ Calculation groups
+
+---
+
+## 🚀 STORAGE MODE
+
+| Requirement            | Mode            |
+| ---------------------- | --------------- |
+| Large + near real-time | **Direct Lake** |
+| Fast but static        | Import          |
+| Real-time but slow     | DirectQuery     |
+
+📌 **Exam rule:**
+
+> **Near-real-time + performance = Direct Lake**
+
+---
+
+# 6️⃣ PERFORMANCE OPTIMIZATION (SHORT & DEADLY)
+
+---
+
+### ❓ WHERE to filter in DAX?
+
+✅ **Dimension table**
+❌ Fact table
+
+📌 Faster storage engine scans
+
+---
+
+### ❓ WHICH statistics to update?
+
+✅ Columns used in:
+
+* JOIN
+* GROUP BY
+* ORDER BY
+
+❌ Based on datatype
+
+---
+
+### ❓ WHICH tool for slow visuals?
+
+✅ Performance Analyzer
+
+---
+
+# 🧠 2-DAY STUDY STRATEGY (DO THIS)
+
+### 🕘 Day 1 (Today)
+
+* Read **Security + Ingestion + Pipelines**
+* Memorize **decision tables**
+* Do **20 practice MCQs**
+
+### 🕘 Day 2 (Tomorrow)
+
+* Read **Semantic Model + DAX**
+* Review **exam rules**
+* Do **1 full mock**
+
+---
+
+ 
