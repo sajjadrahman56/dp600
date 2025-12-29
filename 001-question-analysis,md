@@ -1,0 +1,1299 @@
+Your company uses Microsoft Fabric for data analytics. You must protect sensitive data from unauthorized access in the data warehouse.
+
+You need to manage access to specific objects in the warehouse.
+
+What action should you take to achieve this?
+
+Select only one answer.
+
+Set item-level permissions to warehouse.
+
+
+Configure dynamic data masking on objects.
+
+
+Use TSQL to grant granular permissions.
+
+This answer is correct.
+
+Implement row-level security for objects.
+
+Using T-SQL to grant permissions on specific objects is the correct method to ensure only authorized users can interact with certain warehouse objects. Row-level security applies per table and is not granular enough. Dynamic data masking obfuscates data, but isn't considered access control. Item-level permissions prevent certain access within the warehouse, but not granular to the objects.
+https://learn.microsoft.com/en-us/training/modules/secure-data-warehouse-in-microsoft-fabric/5-configure-sql-granular-permissions
+
+চল এই প্রশ্নটাও **exam-style + easy Bangla**তে পরিষ্কার করি—আগেরগুলোর মতোই 👌
+
+---
+
+# 🧠 PART-1: Original Question টা ভালো করে বুঝি
+
+## ❓ Question (সহজ Bangla)
+
+* কোম্পানি **Microsoft Fabric warehouse** ব্যবহার করছে
+* লক্ষ্য 👉 **Sensitive data protect করা**
+* বিশেষ করে 👉 **warehouse-এর ভেতরের নির্দিষ্ট object (table / view / procedure)**
+  যেন **unauthorized user access করতে না পারে**
+
+প্রশ্ন:
+
+> **Warehouse-এর specific object-এর access control কিভাবে করবে?**
+
+---
+
+## 🔑 সবচেয়ে গুরুত্বপূর্ণ clue 🔥
+
+### 👉 **“manage access to specific objects in the warehouse”**
+
+এখানে ২টা জিনিস স্পষ্ট:
+
+1. **Warehouse level নয়**
+2. **Table / View / Object level access দরকার**
+
+📌 Fabric Warehouse = SQL engine
+📌 SQL-এ **object-level security** = **GRANT / DENY**
+
+---
+
+## 🧩 এখন option গুলো এক এক করে দেখি
+
+---
+
+### ❌ Set item-level permissions — কেন ভুল?
+
+Item-level permission:
+
+* Warehouse, Lakehouse, Dataset level
+* কে warehouse দেখবে / ব্যবহার করবে
+
+📌 Problem:
+
+* ❌ Table বা View-level control দেয় না
+* ❌ “Specific objects” requirement পূরণ করে না
+
+---
+
+### ❌ Dynamic Data Masking — কেন ভুল?
+
+Dynamic Data Masking:
+
+* Data **hide** করে (XXXX, ****)
+* Data access বন্ধ করে না
+
+📌 Problem:
+
+* ❌ Unauthorized user data query করতে পারে
+* ❌ Access control নয়, শুধু obfuscation
+
+---
+
+### ❌ Row-Level Security — কেন ভুল?
+
+RLS:
+
+* **Row-wise filter**
+* Same table, different user → different rows
+
+📌 Problem:
+
+* ❌ Object-level security নয়
+* ❌ Table / View access block করে না
+
+---
+
+### ✅ Use T-SQL to grant granular permissions — কেন ঠিক?
+
+T-SQL GRANT:
+
+* Object-level security
+* Table / View / Schema / Procedure-এ control
+
+📌 Example:
+
+```sql
+GRANT SELECT ON dbo.FactSales TO User1;
+DENY SELECT ON dbo.Salary TO User1;
+```
+
+📌 Exactly matches:
+✔️ Specific objects
+✔️ Unauthorized access prevent
+✔️ Warehouse-level granular control
+
+---
+
+## ✅ FINAL CORRECT ANSWER
+
+✔️ **Use T-SQL to grant granular permissions**
+
+---
+
+# 🧠 PART-2: Question বদলালে answer কিভাবে বদলাবে
+
+এখন আসল শেখার জায়গা 👇
+
+---
+
+## 🔁 Version-1: Sensitive column hide করতে হবে
+
+### ❓ Changed Question
+
+> Users can query the table, but sensitive columns must be hidden.
+
+### ✅ Correct Answer
+
+**Dynamic Data Masking**
+
+---
+
+## 🔁 Version-2: Same table, different users see different rows
+
+### ❓ Changed Question
+
+> Users should see only their own records.
+
+### ✅ Correct Answer
+
+**Row-level security**
+
+---
+
+## 🔁 Version-3: User should or should not access warehouse at all
+
+### ❓ Changed Question
+
+> Control who can access the warehouse item.
+
+### ✅ Correct Answer
+
+**Item-level permissions**
+
+---
+
+## 🔥 ONE-LOOK EXAM CHEAT TABLE
+
+| Requirement         | Solution               |
+| ------------------- | ---------------------- |
+| Object-level access | **T-SQL GRANT**        |
+| Hide column values  | Dynamic Data Masking   |
+| Row-based filtering | Row-Level Security     |
+| Warehouse access    | Item-level permissions |
+
+---
+
+## 🧠 Super Shortcut (Bangla)
+
+> **Table / View access control → T-SQL**
+> **Data hide → Masking**
+> **Row filter → RLS**
+> **Warehouse access → Item permission**
+
+---
+
+## ✨ এক লাইনে summary
+
+> **Fabric Warehouse-এ specific object protect করতে হলে**
+> 👉 **T-SQL granular permission ছাড়া অন্য কিছু ভাববে না**
+
+---
+
+Question 17 of 50
+
+You have a Fabric tenant that contains two lakehouses named Lakehouse1 and Lakehouse2. Lakehouse1 contains a table named FactSales that is partitioned by a column named CustomerID.
+
+You need to create a shortcut to the FactSales table in Lakehouse2. The shortcut must only connect to data for CustomerID 100.
+
+What should you do?
+
+Select only one answer.
+
+Add a filter activity after the copy data activity in a data pipeline.
+
+
+As you create the shortcut select the CustomerKey=100 folder under the FactSales folder in Files.
+
+
+As you create the shortcut, select the CustomerKey=100 folder under the FactSales folder in Tables.
+
+This answer is correct.
+
+In the semantic models connected to the lakehouses, add a report-level filter for CustomerKey = 100.
+
+During the shortcut setup process, you can expand the FactSales folder to see each folder per CustomerID partition and select the folder for CustomerID=100. These folders are unavailable under Files, and all other options will connect to all the customer data in the shortcut.
+
+Referencing data to a Lakehouse using shortcuts - Microsoft Fabric | Microsoft Learn
+
+চল **Question-17** টা একদম **exam-logic + easy Bangla**তে বুঝে ফেলি 🔥
+এই প্রশ্নে অনেকেই trap-এ পড়ে, কিন্তু clue ধরতে পারলে ১০ সেকেন্ডেই answer ✔️
+
+---
+
+# 🧠 PART-1: Question টা ভাঙি
+
+## ❓ সহজ Bangla তে প্রশ্ন
+
+* Fabric tenant এ **২টা lakehouse**
+  👉 Lakehouse1, Lakehouse2
+* Lakehouse1 এ একটা table আছে → **FactSales**
+* FactSales **partition করা** আছে 👉 `CustomerID`
+* তোমাকে করতে হবে:
+
+  * Lakehouse2 তে **shortcut create**
+  * কিন্তু 👉 **শুধু CustomerID = 100 এর data**
+
+📌 Key word গুলো:
+
+* **Shortcut**
+* **Partitioned table**
+* **Only CustomerID 100**
+
+---
+
+# 🔍 PART-2: সবচেয়ে গুরুত্বপূর্ণ clue 🔥
+
+### 👉 “shortcut must only connect to data for CustomerID 100”
+
+Shortcut মানে:
+
+* ❌ Copy করা না
+* ❌ Filter apply করা না
+* ✔️ **Direct reference**
+
+👉 তাই filtering করতে হবে **shortcut তৈরির সময়ই**, না পরে।
+
+---
+
+# 🧩 PART-3: Options বিশ্লেষণ
+
+---
+
+### ❌ Option 1
+
+**Add a filter activity after copy data activity**
+
+📌 কেন ভুল?
+
+* Copy data = data duplicate
+* Shortcut = **no copy**
+* Question-এ pipeline নেই
+
+❌ Wrong
+
+---
+
+### ❌ Option 2
+
+**Select CustomerKey=100 folder under Files**
+
+📌 কেন ভুল?
+
+* Table partition folders **Files section এ দেখা যায় না**
+* Partition folders থাকে **Tables section এ**
+
+❌ Exam trap
+
+---
+
+### ✅ Option 3 (✔️ Correct)
+
+**Select CustomerKey=100 folder under Tables**
+
+📌 কেন ঠিক?
+
+* Partitioned table → **Tables → FactSales → CustomerID=100**
+* Shortcut শুধু ঐ partition-এর সাথে connect করবে
+* No extra data, no filtering later
+
+✔️ Exactly matches requirement
+
+---
+
+### ❌ Option 4
+
+**Report-level filter**
+
+📌 কেন ভুল?
+
+* Shortcut level নয়
+* Semantic model/report level
+* Data physically still connected
+
+❌ Does not limit shortcut data
+
+---
+
+# ✅ FINAL CORRECT ANSWER
+
+✔️ **As you create the shortcut, select the CustomerKey=100 folder under the FactSales folder in Tables.**
+
+---
+
+# 🧠 PART-4: Question বদলালে answer কিভাবে বদলাবে
+
+---
+
+## 🔁 Scenario-1
+
+### ❓ Question
+
+> Lakehouse2-তে শুধু CustomerID=100 এর report দেখাতে হবে
+
+### ✅ Answer
+
+**Report-level filter**
+
+---
+
+## 🔁 Scenario-2
+
+### ❓ Question
+
+> Data copy করে only CustomerID=100 রাখতে হবে
+
+### ✅ Answer
+
+**Pipeline + filter activity**
+
+---
+
+## 🔁 Scenario-3
+
+### ❓ Question
+
+> Shortcut, কিন্তু whole table দরকার
+
+### ✅ Answer
+
+**Select FactSales table (no partition)**
+
+---
+
+# 🔥 EXAM CHEAT RULE (Golden Rule)
+
+> 🔑 **Shortcut + Partition = Tables section**
+> ❌ Files section না
+> ❌ Pipeline না
+> ❌ Report filter না
+
+---
+
+# 🧠 One-line Bangla Memory Trick
+
+> **Shortcut যদি partial data চায় → Partition folder (Tables)**
+
+---
+ Question 18 of 50
+
+You are designing a Microsoft Power BI semantic model that contains a measure named CompanyCosts.
+
+You need to restrict access to CompanyCosts and ensure that only a user named User1 can view the measure in reports.
+
+What should you implement?
+
+Select only one answer.
+
+data masking
+
+
+dynamic row-level security (RLS)
+
+
+object-level security (OLS)
+
+This answer is correct.
+
+static row-level security (RLS)
+
+OLS enables restricting access to semantic model objects, such as tables, columns, and calculations based on these columns. RLS (both static and dynamic) restricts access to specific attributes in the semantic model, such as location, category, etc.
+
+Restrict access to Power BI model objects - Training | Microsoft Learn
+
+চল **Question-18** টা একদম **exam-clear + easy Bangla**তে বুঝি ✅
+এটা DP-600 এ খুব common কিন্তু tricky question।
+
+---
+
+# 🧠 PART-1: প্রশ্নটা সহজ করে বলি
+
+## ❓ Bangla Meaning
+
+* Power BI **semantic model**
+* একটা **measure আছে → CompanyCosts**
+* শর্ত:
+
+  * **শুধু User1** এই measure দেখতে পারবে
+  * অন্য কেউ report-এ এই measure দেখতেই পারবে না
+
+📌 Key clue:
+
+> **restrict access to a MEASURE**
+
+---
+
+# 🔍 PART-2: সবচেয়ে গুরুত্বপূর্ণ clue 🔥
+
+👉 **Measure / Column / Table hide করতে হলে → RLS কাজ করে না**
+
+কারণ:
+
+* RLS = **data filter** (row level)
+* Measure = **metadata object**
+
+📌 তাই এখানে দরকার:
+
+> **Object-level control**
+
+---
+
+# 🧩 PART-3: Options বিশ্লেষণ
+
+---
+
+### ❌ data masking
+
+📌 কেন ভুল?
+
+* Data hide করে (***, XXXX)
+* User এখনো column / measure দেখতে পারে
+* Access restriction না
+
+❌ Wrong
+
+---
+
+### ❌ dynamic RLS
+
+📌 কেন ভুল?
+
+* User অনুযায়ী **row filter**
+* Measure hide করতে পারে না
+
+❌ Wrong
+
+---
+
+### ✅ object-level security (✔️ Correct)
+
+📌 কেন ঠিক?
+
+* Table
+* Column
+* **Measure**
+  সবকিছুর access control করা যায়
+
+✔️ Exactly matches requirement
+
+---
+
+### ❌ static RLS
+
+📌 কেন ভুল?
+
+* Hardcoded row filter
+* Measure visibility control করে না
+
+❌ Wrong
+
+---
+
+# ✅ FINAL ANSWER
+
+✔️ **object-level security (OLS)**
+
+---
+
+# 🧠 PART-4: RLS vs OLS — Exam Friendly Table
+
+| Need                                           | Use         |
+| ---------------------------------------------- | ----------- |
+| Only some **rows** visible                     | RLS         |
+| Hide **measure / column / table**              | **OLS**     |
+| Same table, different users see different rows | Dynamic RLS |
+| Sensitive cost / salary measure                | **OLS**     |
+
+---
+
+# 🔥 Exam Memory Trick (One-liner)
+
+> **Measure hide করতে চাইলে → OLS**
+> **Row hide করতে চাইলে → RLS**
+
+---
+
+# 🧪 Question যদি বদলাতো তাহলে?
+
+### ❓ If question said:
+
+> User1 শুধু **his region data** দেখতে পারবে
+
+👉 ✅ **Dynamic RLS**
+
+---
+
+### ❓ If question said:
+
+> Salary column hide করতে হবে
+
+👉 ✅ **OLS**
+
+---
+
+### ❓ If question said:
+
+> Data mask করে দেখাতে হবে
+
+👉 ✅ **Data masking**
+
+---
+
+চাও তো আমি পরের ধাপে দেখাতে পারি:
+
+* OLS setup steps
+* Tabular Editor example
+* DP-600 OLS vs RLS trap MCQ set
+
+👉 বলো, আমি চালু রাখি 🚀
+
+
+Question 19 of 50
+
+Your company uses Microsoft Fabric to manage data analytics solutions. The marketing department needs to share reports with external partners.
+
+You need to ensure that reports can be shared with external partners without compromising sensitive data.
+
+Each correct answer presents part of the solution. Which three actions should you take?
+
+Select all answers that apply.
+
+Assign external partners a Viewer role.
+
+This answer is incorrect.
+
+Implement row-level security.
+
+This answer is correct.
+
+Restrict workspace sharing settings.
+
+
+Share reports via email attachments.
+
+
+Set data source credentials to a fixed identity.
+
+This answer is correct.
+
+Configure a Power BI app.
+
+This answer is correct.
+Implementing row-level security is crucial for controlling data visibility based on user identity. Switching to a fixed identity ensures that external partners have access to the necessary data without exposing sensitive information. Using Power BI apps enables secure sharing of reports with external partners. Assigning a viewer role allows external partners to view reports without modification access, aligning with the goal of secure sharing. Restricting workspace sharing settings might seem like a way to control data sharing, but it does not directly address the need for secure sharing with external partners. Sharing reports via email attachments can lead to data security issues, as it may result in unauthorized access or data leakage, which is contrary to the goal.
+
+Enable and use Microsoft Fabric - Training | Microsoft Learn
+Manage Fabric security - Training | Microsoft Learn
+
+
+ঠিক আছে 👍
+চল **Question-19** টাও DP-600 exam–style + Bangla সহজে বুঝে ফেলি 🔥
+
+---
+
+# 🧠 PART-1: প্রশ্নটা সহজ Bangla তে
+
+## ❓ Scenario
+
+* কোম্পানি **Microsoft Fabric** ব্যবহার করছে
+* Marketing department চাইছে:
+  👉 **Reports external partners-এর সাথে share করতে**
+* Condition:
+  👉 **Sensitive data compromise করা যাবে না**
+
+প্রশ্ন:
+
+> **কোন ৩টা action নেওয়া উচিত?** (Multiple correct)
+
+---
+
+# 🔍 PART-2: Clues / Key points
+
+1. **External partners** → Fabric tenant-এর বাইরের user
+2. **Sensitive data protect** → Data visibility control দরকার
+3. **Secure sharing** → Email attachment / unprotected sharing disallowed
+
+---
+
+# 🧩 PART-3: Option analysis
+
+---
+
+### 1️⃣ Assign external partners a Viewer role
+
+📌 কেন ❌ ?
+
+* Viewer role → internal workspace access
+* External partner হলে direct Viewer role assign করতে পারবে না সব সময়
+* Least secure for external sharing
+
+❌ Wrong
+
+---
+
+### 2️⃣ Implement row-level security (RLS) ✅
+
+* RLS → **Row-wise data access**
+* Example: Only show region-specific sales to partner
+* Prevents sensitive data leak
+
+✔️ Correct
+
+---
+
+### 3️⃣ Restrict workspace sharing settings ❌
+
+* Workspace sharing restrict → who can access workspace internally
+* External sharing via app / fixed identity **directly not controlled**
+* ❌ Not enough for secure external sharing
+
+❌ Wrong
+
+---
+
+### 4️⃣ Share reports via email attachments ❌
+
+* Data exported → external → security risk
+* Sensitive data leak easy
+
+❌ Wrong
+
+---
+
+### 5️⃣ Set data source credentials to a fixed identity ✅
+
+* External partner → **Power BI app / workspace access**
+* Fixed identity ensures:
+
+  * Partner queries data through same identity
+  * No sensitive internal credentials exposed
+
+✔️ Correct
+
+---
+
+### 6️⃣ Configure a Power BI app ✅
+
+* App → **Secure report sharing to external partners**
+* Control: App access + RLS + fixed identity
+* No workspace exposure
+
+✔️ Correct
+
+---
+
+# ✅ FINAL CORRECT ANSWERS
+
+1. **Implement row-level security (RLS)**
+2. **Set data source credentials to a fixed identity**
+3. **Configure a Power BI app**
+
+---
+
+# 🧠 PART-4: Exam Memory / Cheat
+
+| Requirement             | Solution                         |
+| ----------------------- | -------------------------------- |
+| External partner access | Power BI App                     |
+| Control sensitive data  | RLS                              |
+| Fixed credentials       | Fixed identity / service account |
+| Email attachments       | ❌ Not secure                     |
+| Viewer role             | ❌ Only internal / not sufficient |
+
+---
+
+# 🔥 Exam Shortcut (Bangla)
+
+> **External + Sensitive data + Share**
+> 👉 ৩টি key: **RLS + Fixed Identity + App**
+
+---
+
+# 🧪 Extra Tip
+
+* **Workspace access = internal only**
+* **App = external sharing**
+* **RLS = row security**
+* **Fixed identity = prevent data leak**
+
+---
+
+চাও তো আমি বানিয়ে দিতে পারি:
+
+* DP-600 **external sharing trap MCQs set**
+* **Diagram**: Workspace vs App vs RLS vs Identity
+
+বলেই দিলেই বানাবো 💪
+
+Question 20 of 50
+
+Your organization uses Microsoft Fabric to manage data analytics solutions. The team manages sensitive data within a data warehouse.
+
+You need to implement security measures to limit access to certain data elements without affecting the application layer.
+
+Each correct answer presents part of the solution. Which three actions should you take?
+
+Select all answers that apply.
+
+Apply dynamic data masking.
+
+This answer is correct.
+
+Assign workspace roles.
+
+
+Implement column-level security.
+
+This answer is correct.
+
+Set item-level permissions.
+
+This answer is incorrect.
+
+Use row-level security.
+
+This answer is correct.
+To restrict access to specific columns and rows without affecting the application layer, implementing column-level security, row-level security, and dynamic data masking are necessary. Column-level security limits access to specific columns, ensuring only authorized users can view sensitive information. Row-level security ensures users can only access rows they are authorized to see, enhancing data privacy and control. Dynamic data masking helps prevent unauthorized viewing of sensitive data by masking it in query results, without changing the actual data. Assigning workspace roles and item-level permissions only apply to access to the lakehouse, not the rows and columns within.
+
+Explore end-to-end analytics with Microsoft Fabric - Training | Microsoft Learn
+Secure a Microsoft Fabric data warehouse - Training | Microsoft Learn
+
+চল **Question-20** টা তোমার চাওয়া **exam-style + ultra-efficient Bangla format**-এই পরিষ্কার করি 🔥
+(একেবারে DP-600 mindset দিয়ে)
+
+---
+
+## 🧠 1️⃣ Question Breakdown (Clue ধরো)
+
+প্রশ্নের সবচেয়ে গুরুত্বপূর্ণ keyword গুলো 👇
+
+* **Microsoft Fabric data warehouse**
+* **Sensitive data**
+* **Limit access to certain data elements**
+* ❗ **Without affecting the application layer**
+* **Select THREE**
+
+📌 এর মানে কী?
+
+👉 Application / report / app পরিবর্তন করা যাবে না
+👉 Security দিতে হবে **database / warehouse level-এ**
+👉 Control দরকার **row + column + value level**
+
+---
+
+## ✅ 2️⃣ Correct Answers (Final)
+
+✔️ **Apply dynamic data masking**
+✔️ **Implement column-level security**
+✔️ **Use row-level security**
+
+---
+
+## 🎯 3️⃣ Why These Are Correct (Exam Logic)
+
+### ✔️ Dynamic Data Masking
+
+* Sensitive value (SSN, Salary, Credit Card) **mask করে**
+* Data থাকে same, app change লাগে না
+* Query result-এই protection
+
+---
+
+### ✔️ Column-Level Security
+
+* নির্দিষ্ট **column access restrict**
+* Unauthorized user column দেখতে পারবে না
+* Application untouched থাকে
+
+---
+
+### ✔️ Row-Level Security (RLS)
+
+* User অনুযায়ী **row filter**
+* Same table → different users → different data
+* App logic পরিবর্তন লাগে না
+
+---
+
+## ❌ 4️⃣ Why Others Are Wrong (Trap Explanation)
+
+### ❌ Assign workspace roles
+
+* Workspace / item access control
+* ❌ Row / column / data element control নয়
+
+---
+
+### ❌ Set item-level permissions
+
+* Lakehouse / warehouse access level
+* ❌ Data-inside (row/column) control করে না
+
+---
+
+## 🧠 5️⃣ One-Line Exam Memory Trick
+
+> **Application touch না করে data protect করতে চাইলে →
+> RLS + Column Security + Data Masking**
+
+---
+
+## 🔁 6️⃣ Question বদলালে Answer কিভাবে বদলাতো?
+
+| If question said…              | Correct solution            |
+| ------------------------------ | --------------------------- |
+| Only warehouse access control  | Item-level permissions      |
+| Hide a measure                 | Object-level security (OLS) |
+| Same report, different regions | Dynamic RLS                 |
+| External partners sharing      | App + RLS + Fixed identity  |
+
+---
+
+## 🏁 FINAL TAKEAWAY (Exam Gold)
+
+> **Fabric Warehouse-এ application impact ছাড়া security =
+> Data-level security techniques**
+
+✔️ RLS → row
+✔️ Column security → column
+✔️ Masking → value
+
+---
+
+
+Practice Assessment for Exam DP-600: Implementing Analytics Solutions Using Microsoft Fabric
+Question 21 of 50
+
+Your organization uses Microsoft Fabric for data analytics. The team must protect sensitive data in a Fabric data warehouse from unauthorized access.
+
+You need to limit data access based on different user roles.
+
+Which two actions should you take to achieve this solution?
+
+Select all answers that apply.
+
+Implement column-level security.
+
+This answer is correct.
+
+Assign workspace roles.
+
+
+Implement row-level security.
+
+This answer is correct.
+
+Set item-level permissions.
+
+
+Use dynamic data masking.
+
+This answer is incorrect.
+To effectively limit data visibility based on user roles, implementing both row-level and column-level security is essential. Row-level security ensures that users can only access specific rows they are authorized to view, while column-level security restricts access to sensitive columns, thereby protecting critical information. Setting up item-level permissions provides more specific access control than workspace roles but lacks the necessary granularity for row and column-level restrictions. Assigning workspace roles does not address the need for role-based access control at the row or column level. Dynamic data masking, although useful for obscuring sensitive data, does not fulfill the requirement of restricting access based on user roles.
+
+Explore end-to-end analytics with Microsoft Fabric - Training | Microsoft Learn
+Secure a Microsoft Fabric data warehouse - Training | Microsoft Learn
+
+চল **Question-21** টা তোমার চাওয়া **exam-accurate + efficient Bangla format**-এই পরিষ্কার করি ✅
+(একেবারে DP-600 exam mindset)
+
+---
+
+## 🧠 1️⃣ Question Breakdown (Clue ধরো)
+
+প্রশ্নের **সবচেয়ে গুরুত্বপূর্ণ শব্দগুলো** 👇
+
+* **Microsoft Fabric data warehouse**
+* **Protect sensitive data**
+* **Limit data access**
+* ❗ **Based on different user roles**
+
+📌 এখানে “based on user roles” মানে:
+
+* Different user → different **rows**
+* Different user → different **columns**
+
+👉 Workspace / item access নয়
+👉 দরকার **data-level security**
+
+---
+
+## ✅ 2️⃣ Correct Answers (Final)
+
+✔️ **Implement column-level security**
+✔️ **Implement row-level security**
+
+---
+
+## 🎯 3️⃣ Why These Are Correct (Exam Logic)
+
+### ✔️ Row-Level Security (RLS)
+
+* User / role অনুযায়ী **row filter**
+* Same table → different users → different data
+* Role-based access control directly পূরণ করে
+
+---
+
+### ✔️ Column-Level Security
+
+* Sensitive **column hide / restrict**
+* Certain roles column দেখতে পায়, অন্যরা পায় না
+* Data protection at schema level
+
+---
+
+## ❌ 4️⃣ Why Others Are Wrong (Trap Explanation)
+
+### ❌ Assign workspace roles
+
+* Workspace-level access
+* ❌ Data (row/column) control করে না
+
+---
+
+### ❌ Set item-level permissions
+
+* Warehouse / Lakehouse access control
+* ❌ User role অনুযায়ী data filtering দেয় না
+
+---
+
+### ❌ Use dynamic data masking
+
+* Data **mask** করে, access restrict করে না
+* Same data still accessible
+* ❌ Role-based restriction নয়
+
+---
+
+## 🧠 5️⃣ One-Line Exam Memory Trick
+
+> **User role অনুযায়ী data limit করতে চাইলে →
+> RLS (rows) + Column-level security (columns)**
+
+---
+
+## 🔁 6️⃣ Question বদলালে Answer কিভাবে বদলাতো?
+
+| Question change হলে        | Correct solution            |
+| -------------------------- | --------------------------- |
+| Only hide sensitive values | Dynamic data masking        |
+| Hide a measure             | Object-level security (OLS) |
+| Control warehouse access   | Item-level permissions      |
+| External partner sharing   | App + RLS + Fixed identity  |
+
+---
+
+## 🏁 FINAL EXAM TAKEAWAY
+
+> **Fabric Warehouse-এ role-based data security =
+> RLS + Column-level security**
+
+
+Question 22 of 50
+
+Your organization uses Microsoft Fabric to manage data analytics solutions. There is a need to protect sensitive data and ensure only authorized users can access it.
+
+You need to restrict access to sensitive data across the environment.
+
+What should you do?
+
+Select only one answer.
+
+Apply sensitivity labels.
+
+This answer is correct.
+
+Implement row-level security.
+
+
+Set item-level permissions.
+
+
+Implement object-level security.
+
+This answer is incorrect.
+To restrict access to sensitive data, sensitivity labels protect data and limit access to authorized users for all Fabric items. Implementing row-level security controls access to specific rows within a data store, but does not apply sensitivity labels to restrict access based on data sensitivity. Setting item-level permissions might control access to specific items but does not automatically apply sensitivity labels or control access based on data sensitivity. Similarly, object-level security is only applicable to certain items in the environment.
+
+Explore data teams and Microsoft Fabric - Training | Microsoft Learn
+Govern data in Fabric - Training | Microsoft Learn
+Enable and use Microsoft Fabric - Training | Microsoft Learn
+Manage Fabric security - Training | Microsoft Learn
+
+ঠিক আছে 👍
+এবার **Question-22** আমি ঠিক **exam-accurate + efficient Bangla format**-এ দিচ্ছি,
+এবং তোমার যে feedback ছিল 👉 *“question change হলে answer option change দেখছি না”*
+➡️ সেটা **এই প্রশ্নেই clear করে দেখাবো**।
+
+---
+
+## 🧠 1️⃣ Question Breakdown (Clue ধরো)
+
+প্রশ্নের **সবচেয়ে গুরুত্বপূর্ণ keyword** 👇
+
+* **Protect sensitive data**
+* **Ensure only authorized users can access it**
+* ❗ **Across the environment** (সব জায়গায়)
+* ❗ **Select only ONE**
+
+📌 এই দুইটা clue খুব critical:
+
+### 🔥 “Across the environment”
+
+মানে:
+
+* Warehouse শুধু না
+* Lakehouse, Dataset, Report, Semantic model — **সব Fabric item**
+
+👉 তাই row / column / object level security যথেষ্ট না
+👉 দরকার **environment-wide data protection**
+
+---
+
+## ✅ 2️⃣ Correct Answer (Final)
+
+✔️ **Apply sensitivity labels**
+
+---
+
+## 🎯 3️⃣ Why This Is Correct (Exam Logic)
+
+### ✔️ Sensitivity Labels কেন ঠিক?
+
+* Sensitive data **classify করে** (Public, Confidential, Highly Confidential)
+* **Authorized user ছাড়া access block করে**
+* Fabric-এর **সব item-এ apply হয়**
+* Data যেখানে যাক (report, export, share) → protection থাকে
+
+📌 Exactly matches:
+
+> **“restrict access to sensitive data across the environment”**
+
+---
+
+## ❌ 4️⃣ Why Others Are Wrong (Trap Explanation)
+
+### ❌ Implement row-level security
+
+* শুধু **table-এর row control**
+* ❌ Environment-wide না
+* ❌ Data classification করে না
+
+---
+
+### ❌ Set item-level permissions
+
+* Workspace / item access control
+* ❌ Sensitive data detect বা classify করে না
+
+---
+
+### ❌ Implement object-level security
+
+* Table / column / measure hide করে
+* ❌ সব Fabric item-এ apply হয় না
+* ❌ Environment-wide solution না
+
+---
+
+## 🧠 5️⃣ One-Line Exam Memory Trick (VERY IMPORTANT)
+
+> **“Across the environment” দেখলেই →
+> Sensitivity Labels**
+
+---
+
+## 🔁 6️⃣ 🔥 Question Change হলে Answer কিভাবে Change হবে (তুমি যেটা চাইছিলে)
+
+এখানে মন দিয়ে দেখো 👇
+
+| Question যদি এমন হতো…                        | Correct Answer         |
+| -------------------------------------------- | ---------------------- |
+| Only some rows per user                      | Row-level security     |
+| Hide a column or measure                     | Object-level security  |
+| Control warehouse access                     | Item-level permissions |
+| Sensitive data classify & protect everywhere | **Sensitivity labels** |
+
+📌 **Same topic**, কিন্তু
+👉 **keyword change = answer change**
+
+---
+
+## 🏁 FINAL EXAM TAKEAWAY (Golden Rule)
+
+> **Fabric-এ sensitive data যদি “environment-wide” protect করতে হয় →
+> Sensitivity Labels ছাড়া কিছু ভাববে না**
+
+---
+
+### 🔥 DP-600 Exam Shortcut
+
+* **Across environment** → Sensitivity label
+* **Row** → RLS
+* **Column / Measure** → OLS
+* **Warehouse access** → Item permission
+
+---
+
+এখন তুমি চাইলে 👇
+👉 **Question-23 পাঠাও**
+আমি আবার এই exact format-এই উত্তর দেব 🚀
+
+
+Question 23 of 50
+
+You have a semantic model that pulls data from an Azure SQL database and is synced via Fabric deployment pipelines to three workspaces named Development, Test, and Production.
+
+You need to reduce the size of the query requests sent to the Azure SQL database when full semantic model refreshes occur in the Development or Test workspaces.
+
+What should you do for the deployment pipeline?
+
+Select only one answer.
+
+Add a deployment parameter rule to filter the data.
+
+This answer is correct.
+
+Configure row-level security (RLS).
+
+
+Connect either workspace to an Azure Data Lake Storage Gen2 account.
+
+
+Enable an incremental refresh policy.
+
+Adding query parameters to the semantic model allows you to filter the refreshed data either categorically or by date and change the amount of data being pulled in between the Development, Test, and Production workspaces. All other options will not change which data is pulled in between the pipeline workspaces.
+
+Create deployment rules for Fabric's Application lifecycle management (ALM) - Microsoft Fabric | Microsoft Learn
+
+Manage the analytics development lifecycle - Training | Microsoft Learn
+
+ 
+চল **Question-23** টা তোমার চাওয়া **exam-accurate + efficient Bangla format**-এই একদম পরিষ্কার করি ✅
+(এখানে “question change হলে answer change” বিষয়টাও স্পষ্ট হবে)
+
+---
+
+## 🧠 1️⃣ Question Breakdown (Clue ধরো)
+
+সবচেয়ে গুরুত্বপূর্ণ keyword গুলো 👇
+
+* **Semantic model**
+* **Azure SQL database**
+* **Deployment pipeline (Dev / Test / Prod)**
+* ❗ **Reduce size of query requests**
+* ❗ **Full semantic model refresh**
+* ❗ **Only in Development or Test**
+
+📌 এখানে বোঝা যাচ্ছে:
+
+* Source = Azure SQL
+* Problem = **Dev/Test-এ অপ্রয়োজনীয় বেশি data pull হচ্ছে**
+* Solution দরকার = **Pipeline level-এ data কমানো**
+
+---
+
+## ✅ 2️⃣ Correct Answer (Final)
+
+✔️ **Add a deployment parameter rule to filter the data**
+
+---
+
+## 🎯 3️⃣ Why This Is Correct (Exam Logic)
+
+### ✔️ Deployment parameter rule কেন ঠিক?
+
+* Semantic model-এ **query parameters** define করা যায়
+* Deployment pipeline-এ rule দিয়ে:
+
+  * Dev/Test → **filtered / reduced data**
+  * Prod → **full data**
+* ফলে:
+
+  * Azure SQL-এ **ছোট query যায়**
+  * Refresh fast হয়
+  * Production data untouched থাকে
+
+📌 Exactly matches:
+
+> “reduce the size of the query requests … in Development or Test”
+
+---
+
+## ❌ 4️⃣ Why Others Are Wrong (Trap Explanation)
+
+### ❌ Configure row-level security (RLS)
+
+* User query time-এ filter
+* ❌ Refresh time-এ data pull কমায় না
+
+---
+
+### ❌ Connect to Azure Data Lake Storage Gen2
+
+* Storage location change
+* ❌ Query size বা refresh scope change করে না
+
+---
+
+### ❌ Enable incremental refresh policy
+
+* Large historical table + time-based refresh হলে কাজ করে
+* ❌ Dev/Test-এ আলাদা data scope control দেয় না
+* ❌ Question-এ incremental scenario বলা নেই
+
+---
+
+## 🧠 5️⃣ One-Line Exam Memory Trick
+
+> **Deployment pipeline + Dev/Test data কমানো →
+> Deployment parameter rule**
+
+---
+
+## 🔁 6️⃣ 🔥 Question Change হলে Answer কিভাবে Change হতো
+
+এটাই তুমি জানতে চাইছিলে — এখন দেখো 👇
+
+| Question যদি এমন হতো…                  | Correct Answer                |
+| -------------------------------------- | ----------------------------- |
+| Only recent data refresh daily         | Incremental refresh           |
+| User-wise data visibility              | RLS                           |
+| Filter Dev/Test data during deployment | **Deployment parameter rule** |
+| Change connection string per stage     | Deployment connection rule    |
+
+👉 **Same semantic model**, কিন্তু
+👉 **keyword change = answer change**
+
+---
+
+## 🏁 FINAL EXAM TAKEAWAY
+
+> **Fabric deployment pipeline-এ environment-wise data scope control করতে চাইলে →
+> Parameter rule ছাড়া অন্য কিছু ভাববে না**
+
+---
+
+### 🔥 DP-600 Quick Recall
+
+* **Pipeline + Dev/Test filter** → Parameter rule
+* **Large historical table** → Incremental refresh
+* **User-based access** → RLS
+
+---
+
+👉 এখন চাইলে **Question-24 পাঠাও**
+আমি আবার এই exact format-এই উত্তর দেব 🚀
+
+
+
+
+
+
+
